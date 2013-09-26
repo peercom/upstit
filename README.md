@@ -1,6 +1,6 @@
 # Upstit
 
-TODO: Write a gem description
+Retrieve time in transit for UPS Packages
 
 ## Installation
 
