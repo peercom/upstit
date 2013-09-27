@@ -15,6 +15,7 @@ module Upstit
     def set_environment
       if @options[:test] == true
         @client.wsdl.endpoint = TEST_URL
+        self.class.base_uri TEST_URL
       else 
         @client.wsdl.endpoint = LIVE_URL
       end   
