@@ -8,6 +8,6 @@ module Upstit
   # The needed credentials to communicate with the server were not given
   class MissingCredentialsError < UpstitError; end
   
-  # The carrier for the tracking number could not be discerned
+  # Either sender- or destinations address are incorrect
   class InvalidAddressError < UpstitError; end
 end
