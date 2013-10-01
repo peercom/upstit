@@ -30,7 +30,6 @@ module Upstit
       rescue Savon::Error => error
               @client_response = error   
       end
-      p build_xml
       build_response
     end
     
@@ -71,15 +70,17 @@ module Upstit
         </TransitFrom>
         <TransitTo> 
           <AddressArtifactFormat>
-            <PoliticalDivision2>Nassau</PoliticalDivision2>
-            <CountryCode>BS</CountryCode> </AddressArtifactFormat>
+            <PoliticalDivision2>#{options[:transit_to_political_division2]}</PoliticalDivision2>
+            <PoliticalDivision1>#{options[:transit_to_political_division1]}</PoliticalDivision1> 
+            <CountryCode>#{options[:transit_to_country_code]}</CountryCode> 
+            <PostcodePrimaryLow>#{options[:transit_to_postcode_primary_low]}</PostcodePrimaryLow>
+          </AddressArtifactFormat>
         </TransitTo>
         <ShipmentWeight>
           <UnitOfMeasurement> 
-            <Code>KGS</Code> 
-            <Description>Kilograms</Description>
+            <Code>#{options[:unit_of_measurement]}</Code> 
           </UnitOfMeasurement>
-          <Weight>23</Weight>
+          <Weight>#{options[:weight]}</Weight>
         </ShipmentWeight>
         <InvoiceLineTotal>
           <CurrencyCode>USD</CurrencyCode>
@@ -87,58 +88,6 @@ module Upstit
         </InvoiceLineTotal>
         <PickupDate>20131002</PickupDate>
       </TimeInTransitRequest>"
-    end
-    
-    
-    
-    # Build request with mandantory data
-    def build_mandantory_request
-      {
-        "Request" => {
-          "TransactionReference" => {
-            "CustomerContext" => [options[:origin_country_code]],
-            "XpciVersion" => ["1.0002"]
-          },
-          "RequestAction" => ["TimeInTransit"]
-        },
-        "TransitFrom" => {
-          "AddressArtifactFormat" => {
-            "PoliticalDivision1" => [options[:transit_from_political_division]],
-            "CountryCode" => [options[:transit_from_country_code]],
-            "PostcodePrimaryLow" => [options[:transit_from_postcode_primary_low]]
-          }
-        },
-        "TransitTo" => {
-          "AddressArtifactFormat" => {
-            "PoliticalDivision1" => [options[:transit_to_political_division]],
-            "CountryCode" => [options[:transit_to_country_code]],
-            "PostcodePrimaryLow" => [options[:transit_to_postcode_primary_low]]
-          }
-        }  
-      }
-    end
-    
-    def build_access_request
-      {
-        "AccessRequest" => {
-          "AccessLicenseNumber" => @access_license,
-          "UserId" => @user_id,
-          "Password" => @password
-        }
-      }
-    end
-    
-    # Build optional weight hash
-    def build_weight_hash
-      {"ShipmentWeight" => {
-        "UnitOfMeasurement" => { "Code" => [@unit_of_measurement] },
-        "Weight"            => [@weight]
-      }
-    }
-  end
-    
-    #build optional "total packages in shipment" hash
-    def build_total_packages_hash 
     end
     
     def build_response
